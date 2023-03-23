@@ -4,17 +4,22 @@ using UnityEngine;
 
 public class CreatureBase
 {
-    private int MaxHP;
-    private int CurrentHP;
-    private int Defense;
-    public List<EffectID> Effects;
+    protected int MaxHP;
+    protected int CurrentHP;
+    protected int Defense;
+
+    
+
     public void MinusHP(int hp)
     {
+        
         CurrentHP -= hp;
-    }
+        
+    }  
 
     public void PlusHP(int hp)
     {
+        
         CurrentHP += hp;
     }
 
@@ -28,14 +33,19 @@ public class CreatureBase
         Defense -= def;
     }
 
+    public void GetDamage(int dam)
+    {
+
+    }
+
 }
 
 public class PlayerBase : CreatureBase
 {
-
+    
 }
 
 public class EnemyBase : CreatureBase
 {
-
+    
 }

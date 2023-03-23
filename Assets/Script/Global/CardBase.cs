@@ -14,6 +14,8 @@ public class CardBase : ICopy<CardBase>
     public TargetID TargetID;
     public string Desc;
     public int[] Data;
+    public TriggerID[] DataTrigger;
+    
     
     
     public CardBase(CardID id)
@@ -32,7 +34,7 @@ public class CardBase : ICopy<CardBase>
         return desc;
     }
 
-    public virtual void Use()
+    public virtual void Use(params CreatureController[] target)
     {
 
     }
@@ -53,6 +55,9 @@ public class CardBase : ICopy<CardBase>
         copy.Data = Data.ToArray();
         return copy;
     }
+
+    
+
 }
 
 public class 검무 : CardBase
@@ -69,7 +74,7 @@ public class 검무 : CardBase
         //Regex.replace로 파싱
         return desc;
     }
-    public override void Use()
+    public override void Use(params CreatureController[] target)
     {
         
     }
@@ -78,6 +83,37 @@ public class 검무 : CardBase
     {
         
     }
+
+
+}
+
+
+public class 공격 : CardBase
+{
+    public 공격(CardID id) : base(id)
+    {
+
+    }
+
+    public override string GetCardDesc()
+    {
+        string desc = base.GetCardDesc();
+        // Cal(); 한 데이터를 먼저 전달받음
+        //Regex.replace로 파싱
+        return desc;
+    }
+    public override void Use(params CreatureController[] target)
+    {
+        int data = EventManager.CallOnEnemyTrigger(target[0], TriggerID.Attack, Data[0]);
+        target[0].GetDamage(data);
+    }
+
+    public override void Cal()
+    {
+
+    }
+
+
 }
 /*
     public void SetCard(object name, object cost, object rarity, object type, object target, object desc, object data)

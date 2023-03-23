@@ -9,12 +9,13 @@ public class CardController : MonoBehaviour
     private Vector3 _pos;
     private Quaternion _rot;
     private int _index;
-    public CardBase _card; // 여기에서 전투 단위 수정이 이루어지고 다시 삭제될 예정
+    [SerializeField] private CardView _view;
+    public CardBase Card; // 여기에서 전투 단위 수정이 이루어지고 다시 삭제될 예정
 
     public void InitCard(CardID id)
     {
         _id = id;
-        _card = Database.CardDataDict[id].Copy();
+        Card = Database.CardDataDict[id].Copy();
     }
     public void SetPos(Vector3 pos, Quaternion rot, int index)
     {
@@ -23,14 +24,39 @@ public class CardController : MonoBehaviour
         _index = index;
     }
 
+    
+
+}
+
+
+public class BattleCardController: CardController
+{
     private void OnMouseEnter()
     {
-        //MouseOverCard();
+        
     }
-
     private void OnMouseDown()
     {
-        //ClickObj(_card);
+        
     }
+    private void OnMouseExit()
+    {
+        
+    }
+
+}
+
+public class PanelCardController : CardController
+{
+
+}
+
+public class StoreCardController : CardController
+{
+
+}
+
+public class PrizeCardController : CardController
+{
 
 }
