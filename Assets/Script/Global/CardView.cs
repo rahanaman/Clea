@@ -8,7 +8,6 @@ public class CardView : MonoBehaviour
     [SerializeField] private Text _cardCost; // ¹Ù²ñ
     [SerializeField] private Text _cardName; // ¾È ¹Ù²ñ
     [SerializeField] private Text _cardDesc; // ¹Ù²ñ
-    
     public void SetCardUI(int cost)
     {
         _cardCost.text = cost.ToString();

@@ -1,47 +1,59 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Data;
+using Event;
+using System;
+using Trigger;
 
 public class EffectBase
 {
     public EffectID Id;
+    //public int Index;
+    public int Stack = 0;
+    protected bool _isStack;
+    public List<TriggerBase> TriggerList = new List<TriggerBase>();
+
     public EffectBase(EffectID id)
     {
         Id = id;
+        PlusStack();
     }
-    protected List<TriggerBase> _trigger;
+     
 
-    public void AddEvent(List<VoidEvent> trigger)
+    public void PlusStack(int num = 1)
     {
-        for (int i = 0; i < _trigger.Count; i++)
-        {
-            _trigger[i].AddTriggerEvent(trigger[(int)_trigger[i].InTrigger]);
-        }
+        Stack += num;
     }
 
-    public void RemoveEvent(List<VoidEvent> trigger)
+    public void MinusStack(int num = 1)
     {
-        for (int i = 0; i < _trigger.Count; i++)
-        {
-            _trigger[i].RemoveTriggerEvent(trigger[(int)_trigger[i].InTrigger]);
-        }
+        Stack -= num;
     }
+
+}
+
+
+
+
+
+public class 약화 : EffectBase
+{
+    
+    public 약화(EffectID id) : base(id)
+    {
+        _isStack = true;
+    }
+    
 
 
 }
 
-public class 연소 : EffectBase
+public class 독 : EffectBase
 {
-
-    public 연소(EffectID id) : base(id)
+    public 독(EffectID id) : base(id)
     {
-        Init();
-    }
 
-    public void Init()
-    {
-        _trigger = new List<TriggerBase>();
-        //_trigger.Add();
     }
 }
 
