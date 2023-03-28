@@ -2,15 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-
 public class CardView : MonoBehaviour
 {
     [SerializeField] private Image _cardIcon; // ¾È¹Ù²ñ
-    [SerializeField] private TextMeshProUGUI _cardCost; // ¹Ù²ñ
-    [SerializeField] private TextMeshProUGUI _cardName; // ¾È ¹Ù²ñ
-    [SerializeField] private TextMeshProUGUI _cardDesc; // ¹Ù²ñ
-    
+    [SerializeField] private Text _cardCost; // ¹Ù²ñ
+    [SerializeField] private Text _cardName; // ¾È ¹Ù²ñ
+    [SerializeField] private Text _cardDesc; // ¹Ù²ñ
     public void SetCardUI(int cost)
     {
         _cardCost.text = cost.ToString();

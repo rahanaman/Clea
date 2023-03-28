@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Data;
 
 public class DataLoader : MonoBehaviour
 {
     public static DataLoader instance;
-    [SerializeField]private TextAsset _cardCSVData;
+    [SerializeField] private TextAsset _cardCSVData;
     [SerializeField] private CardView _cardCon;
     [SerializeField] private GameObject _enemy;
     private void Awake()
@@ -23,16 +24,13 @@ public class DataLoader : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(gameObject);
     }
-    private void LoadData()
-    {
-        LoadCardData();
-    }
-
     private List<Dictionary<string, object>> _cardData = new List<Dictionary<string, object>>();
-    private void LoadCardData()
+    private void LoadData()
     {
         _cardData = CSVReader.Read(_cardCSVData);
     }
+
+
     public void Load()
     {
         for (int i = 0; i < _cardData.Count; ++i)

@@ -5,16 +5,17 @@ using UnityEngine;
 public class CardController : MonoBehaviour
 {
     [SerializeField] private GameObject _efx;
-    private CardID _id;
-    private Vector3 _pos;
-    private Quaternion _rot;
-    private int _index;
-    public CardBase _card; // 여기에서 전투 단위 수정이 이루어지고 다시 삭제될 예정
+    public CardID Id { get; private set;}
+    protected Vector3 _pos;
+    protected Quaternion _rot;
+    protected int _index;
+    [SerializeField] private CardView _view;
+    //public CardBase Card; // 여기에서 전투 단위 수정이 이루어지고 다시 삭제될 예정
 
     public void InitCard(CardID id)
     {
-        _id = id;
-        _card = Database.CardDataDict[id].Copy();
+        Id = id;
+        //Card = Database.CardDataDict[id].Copy();
     }
     public void SetPos(Vector3 pos, Quaternion rot, int index)
     {
@@ -23,14 +24,39 @@ public class CardController : MonoBehaviour
         _index = index;
     }
 
+    
+
+}
+
+
+public class 전투CardController: CardController
+{
     private void OnMouseEnter()
     {
-        //MouseOverCard();
+        
     }
-
     private void OnMouseDown()
     {
-        //ClickObj(_card);
+        
     }
+    private void OnMouseExit()
+    {
+        
+    }
+
+}
+
+public class 패널CardController : CardController
+{
+
+}
+
+public class 상점CardController : CardController
+{
+
+}
+
+public class 보상CardController : CardController
+{
 
 }
