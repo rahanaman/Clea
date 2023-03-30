@@ -12,7 +12,12 @@ public enum CharID
 }
 public enum CardID
 {
-    검무
+    검무,
+    불태우기,
+    화염사슬,
+    찌르기,
+    타격,
+    무모,
 }
 
 public enum EffectID
@@ -23,7 +28,7 @@ public enum TriggerID //data, 효과 단위에서 일치 검사를 할 때 사용하는 ID //대충
 {
     None,
     ObjUse,
-    TurnEnd,
+    턴종료,
     Attack, // 공격이 일어나는 경우 (n회 공격시 n회 불러짐)
     Defense,
     DirectAttack, // 실제 체력까지 데미지가 입혀지는 경우
@@ -36,10 +41,12 @@ public enum DataID
     공격,
     방어,
     독,
-    연소
+    연소,
+    순환
+    
 }
 
-public enum Carde등급ID
+public enum Card등급ID
 {
     견습,
     숙련,
@@ -89,6 +96,18 @@ public enum 유물ID
     디아나_시작
 }
 
+public class DataCon<T> // 공격 관련 데이터 - ID를 통해 ID에 맞는 DataInt 호출, 최종 data 계산
+{
+    public DataCon(T id, int data)
+    {
+        Data = data;
+        Id = id;
+    }
+    public T Id;
+    public int Data;
+    
+}
+
 namespace Data // C 정보
 {
     public static class Database
@@ -99,6 +118,7 @@ namespace Data // C 정보
         public static Sprite[] CharSprite = new Sprite[] { }; // 여기는 그림 가져올 거
         public static Dictionary<CardID, CardBase> CardDataDict = new Dictionary<CardID, CardBase>(); // 모든 참조는 여기에서 일어나용 '~`
         public static Dictionary<EffectID, EffectBase> EffectDataDict = new Dictionary<EffectID, EffectBase>();// 모든 참조는 여기에서 일어나용 '~`
+        //public static Dictionary<유물ID, 유물Base>
     }
 
     public class DataInt
@@ -467,15 +487,10 @@ namespace Data // C 정보
         }
     } // 필요하면 쓰는데 일단 안 쓸 듯
 
-    public class DataCon // 공격 관련 데이터 - ID를 통해 ID에 맞는 DataInt 호출, 최종 data 계산
-    {
-        public int Data;
-        public DataID ID;
-    }
+    
 
 
 }
-
 
 
 

@@ -28,6 +28,9 @@ public class DataLoader : MonoBehaviour
     private void LoadData()
     {
         _cardData = CSVReader.Read(_cardCSVData);
+        Load();
+
+
     }
 
 
@@ -39,11 +42,29 @@ public class DataLoader : MonoBehaviour
             switch (id)
             {
                 case CardID.검무:
-                    Database.CardDataDict[id] = new 검무(CardID.검무);
+                    Database.CardDataDict.Add(id,new 검무(CardID.검무));
+                    break;
+                case CardID.불태우기:
+                    Database.CardDataDict.Add(id, new 검무(CardID.검무));
+                    break;
+                case CardID.무모:
+                    Database.CardDataDict.Add(id, new 검무(CardID.검무));
+                    break;
+                case CardID.타격:
+                    Database.CardDataDict.Add(id, new 검무(CardID.검무));
+                    break;
+                case CardID.화염사슬:
+                    Database.CardDataDict.Add(id, new 검무(CardID.검무));
+                    break;
+                case CardID.찌르기:
+                    Database.CardDataDict.Add(id, new 검무(CardID.검무));
                     break;
             }
+            Debug.Log(id);
             Database.CardDataDict[id].SetCard(_cardData[i]);
         }
     }
+
+
 }
 

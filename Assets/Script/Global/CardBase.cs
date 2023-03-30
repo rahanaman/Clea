@@ -3,16 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Text.RegularExpressions;
 using System.Linq;
+using System;
 
 public class CardBase
 {
+    const string KEY_ID = "ID";
+    const string KEY_NAME = "Name";
+    const string KEY_COST = "Cost";
+    const string KEY_등급 = "등급";
+    const string KEY_분류 = "분류";
+    const string KEY_대상 = "대상";
+    const string KEY_DESCRIPTION = "Description";
+    const string KEY_DATA = "Data";
     public CardID Id;
     public string Name;
     public int Cost;
-    public Carde등급ID 등급ID;
+    public Card등급ID 등급ID;
     public Card종류ID 종류ID;
     public TargetID TargetID;
     public string Desc;
+
+    private DataCon<DataID>[] _dataList;
 
     
     public CardBase(CardID id)
@@ -22,6 +33,29 @@ public class CardBase
 
     public void SetCard(Dictionary<string, object> data)
     {
+        Id = (CardID)int.Parse(data[KEY_ID].ToString());
+        Name = data[KEY_NAME].ToString();
+        Cost = int.Parse(data[KEY_COST].ToString());
+        등급ID = (Card등급ID)Enum.Parse(typeof(Card등급ID),data[KEY_등급].ToString());
+        종류ID = (Card종류ID)Enum.Parse(typeof(Card종류ID),data[KEY_분류].ToString());
+        TargetID = (TargetID)Enum.Parse(typeof(TargetID),data[KEY_대상].ToString());
+        Desc = data[KEY_DESCRIPTION].ToString();
+        SetCardData(data[KEY_DATA].ToString());
+
+    }
+
+    private void SetCardData(string data)
+    {
+        string[] str = data.Split(',');
+        _dataList = new DataCon<DataID>[(str.Length / 2)];
+        int index = 0;
+        for(int i = 0; i < str.Length; i+=2, index++)
+        {
+            str[i].Trim();
+            str[i+1].Trim();
+            _dataList[index] = new DataCon<DataID>((DataID)Enum.Parse(typeof(DataID),str[i + 1]), int.Parse(str[i]));
+        }
+
         
     }
 
@@ -31,7 +65,7 @@ public class CardBase
         return desc;
     }
 
-    public virtual void Use(params int[] target)
+    public virtual void Use(int[] target)
     {
 
     }
@@ -60,7 +94,7 @@ public class 검무 : CardBase
         //Regex.replace로 파싱
         return desc;
     }
-    public override void Use(params int[] target)
+    public override void Use(int[] target)
     {
         
     }
@@ -89,7 +123,7 @@ public class 공격 : CardBase
         //Regex.replace로 파싱
         return desc;
     }
-    public override void Use(params int[] target)
+    public override void Use(int[] target)
     {
         // data = EventManager.CallOnEnemyTrigger(target[0], TriggerID.Attack, Data[0]);
         //target[0].GetDamage(data);
@@ -102,15 +136,3 @@ public class 공격 : CardBase
 
 
 }
-/*
-    public void SetCard(object name, object cost, object rarity, object type, object target, object desc, object data)
-    {
-        string SPLIT_RE = ",";
-        Name = Name.ToString();
-        Cost = int.Parse(cost.ToString());
-        RarityID = (CardeRarityID)int.Parse(rarity.ToString());
-        TypeID = (CardTypeID)int.Parse(type.ToString());
-        Desc = desc.ToString();
-        Data = System.Array.ConvertAll((Regex.Split(data.ToString(), SPLIT_RE)), s => int.Parse(s.Trim()));
-    }
-        */
