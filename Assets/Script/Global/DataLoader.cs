@@ -34,7 +34,7 @@ public class DataLoader : MonoBehaviour
     }
 
 
-    public void Load()
+    public void Load() //csv 읽어오는 거 확인하기 위해 만든 더미
     {
         for (int i = 0; i < _cardData.Count; ++i)
         {

@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 using System.Linq;
 using System;
 
-public class CardBase
+public abstract class CardBase
 {
     const string KEY_ID = "ID";
     const string KEY_NAME = "Name";
@@ -15,6 +15,9 @@ public class CardBase
     const string KEY_대상 = "대상";
     const string KEY_DESCRIPTION = "Description";
     const string KEY_DATA = "Data";
+
+
+
     public CardID Id;
     public string Name;
     public int Cost;
@@ -65,14 +68,10 @@ public class CardBase
         return desc;
     }
 
-    public virtual void Use(int[] target)
-    {
+    public abstract void Use(CreatureController c);
+    public abstract void Calc(EnemyController c); // 적관련 계산?
 
-    }
-    public virtual void Cal()
-    {
-        //신호를 받으면 카드의 데이터 중에 수정되어야 하는 아이들 탐색, 수정해서 리턴
-    }
+    public abstract void CalcPlayer(PlayerController c);
 
     
 
@@ -85,35 +84,16 @@ public class 검무 : CardBase
     public 검무(CardID id) : base(id)
     {
 
-    }  
-
-    public override string GetCardDesc()
-    {
-        string desc = base.GetCardDesc();
-        // Cal(); 한 데이터를 먼저 전달받음
-        //Regex.replace로 파싱
-        return desc;
-    }
-    public override void Use(int[] target)
-    {
-        
     }
 
-    public override void Cal()
+    public override void Calc(EnemyController c)
     {
-        
+        throw new NotImplementedException();
     }
 
-
-}
-
-
-public class 공격 : CardBase
-{
-
-    public 공격(CardID id) : base(id)
+    public override void CalcPlayer(PlayerController c)
     {
-
+        throw new NotImplementedException();
     }
 
     public override string GetCardDesc()
@@ -123,16 +103,9 @@ public class 공격 : CardBase
         //Regex.replace로 파싱
         return desc;
     }
-    public override void Use(int[] target)
+
+    public override void Use(CreatureController c)
     {
-        // data = EventManager.CallOnEnemyTrigger(target[0], TriggerID.Attack, Data[0]);
-        //target[0].GetDamage(data);
+        throw new NotImplementedException();
     }
-
-    public override void Cal()
-    {
-
-    }
-
-
 }

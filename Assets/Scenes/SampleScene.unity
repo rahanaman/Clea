@@ -460,3 +460,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69bd6cb2198b8424390bc6397c8f50f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Card: {fileID: 813972845495629301, guid: bf99d5f9553f66e488d53c08849f16b2, type: 3}
+  can: {fileID: 605381534}

@@ -7,10 +7,11 @@ public class Debugaaaaa : MonoBehaviour
     int[] data = new int[] {2,3,5,32,1001,111};
     private List<Dictionary<string, object>> _cardData = new List<Dictionary<string, object>>();
     string str = "피해를{1} 입습니다. 피해를 {2} 입 {0}힙니{3}다.";
+    [SerializeField] GameObject Card;
+    [SerializeField] Transform can;
     void Start()
     {
-        string str2 = StringParser.ParseDesc(str, data);
-        Debug.Log(str2);
+        
     }
 
     // Update is called once per frame

@@ -26,7 +26,7 @@ public enum EffectID
 }
 public enum TriggerID //data, 효과 단위에서 일치 검사를 할 때 사용하는 ID //대충 예시로 막 적어둔 상태임
 {
-    None,
+    None, // 발동되서 최종 데미지 계산하는 애들
     ObjUse,
     턴종료,
     Attack, // 공격이 일어나는 경우 (n회 공격시 n회 불러짐)
@@ -83,7 +83,7 @@ public enum StateID
 }
 public enum CardStateID
 {
-    손패,
+    전투,
     패널,
     상점,
     보상
@@ -96,6 +96,11 @@ public enum 유물ID
     디아나_시작
 }
 
+public enum PanelID
+{
+    캐릭터선택,
+    설정
+}
 public class DataCon<T> // 공격 관련 데이터 - ID를 통해 ID에 맞는 DataInt 호출, 최종 data 계산
 {
     public DataCon(T id, int data)
@@ -104,7 +109,12 @@ public class DataCon<T> // 공격 관련 데이터 - ID를 통해 ID에 맞는 DataInt 호출, 
         Id = id;
     }
     public T Id;
-    public int Data;
+    public int Data { get; private set; }
+
+    public void AddData(int data)
+    {
+        Data += data;
+    }
     
 }
 
@@ -118,6 +128,7 @@ namespace Data // C 정보
         public static Sprite[] CharSprite = new Sprite[] { }; // 여기는 그림 가져올 거
         public static Dictionary<CardID, CardBase> CardDataDict = new Dictionary<CardID, CardBase>(); // 모든 참조는 여기에서 일어나용 '~`
         public static Dictionary<EffectID, EffectBase> EffectDataDict = new Dictionary<EffectID, EffectBase>();// 모든 참조는 여기에서 일어나용 '~`
+        public static PanelBase[] Panel = new PanelBase[] { };
         //public static Dictionary<유물ID, 유물Base>
     }
 
@@ -192,7 +203,7 @@ namespace Data // C 정보
         {
             if (0 <= index && index < _기본배수.Count)
             {
-                _기본배수.RemoveAt(index);
+                _기본배수[index] = 1.0f;
             }
             Calc기본배수();
             Calc데이터();
@@ -201,16 +212,16 @@ namespace Data // C 정보
         {
             if (0 <= index && index < _증가량.Count)
             {
-                _증가량.RemoveAt(index);
+                _증가량[index] = 0;
             }
             Calc증가량();
             Calc데이터();
         }
-        public void Remove배수(int index)
+        public void Remove배수(int index) // remove로 바꿔야함
         {
             if (0 <= index && index < _배수.Count)
             {
-                _배수.RemoveAt(index);
+                _배수[index] = 1.0f;
             }
             Calc배수();
             Calc데이터();
@@ -219,7 +230,7 @@ namespace Data // C 정보
         {
             if (0 <= index && index < _추가량.Count)
             {
-                _추가량.RemoveAt(index);
+                _추가량[index] = 0;
             }
             Calc추가량();
             Calc데이터();
@@ -495,11 +506,11 @@ namespace Data // C 정보
 
 
 
-
-
-
-public interface ICopy<T>
+public abstract class PanelBase : MonoBehaviour
 {
-    T Copy();
+
 }
+
+
+
 

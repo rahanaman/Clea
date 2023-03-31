@@ -2,7 +2,7 @@ using System;
 
 namespace Trigger
 {
-    public class TriggerBase
+    public class TriggerBase // 없앨듯
     {
         public int Index;
         public TriggerID InTrigger; // 해당 트리거가 발동되면 Execute 실행

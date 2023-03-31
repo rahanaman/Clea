@@ -5,7 +5,7 @@ using System;
 using Event.전투;
 using Data;
 
-public class CreatureController : MonoBehaviour
+public abstract class CreatureController : MonoBehaviour
 {
     private void Awake()
     {
@@ -14,8 +14,7 @@ public class CreatureController : MonoBehaviour
 
     protected List<DataCon<EffectID>> _effectList;
 
-    public int Index { get; protected set; }
-
+    
     protected int _방어도;
 
     public List<DataInt> 받는Data = new List<DataInt>(Enum.GetValues(typeof(DataID)).Length); // 받는 데이터int
@@ -29,26 +28,21 @@ public class CreatureController : MonoBehaviour
         주는Data = new List<DataInt>(Enum.GetValues(typeof(DataID)).Length); // 주는 데이터int
     }
 
-     
-    /*
-    public void AddEffect(EffectID id, int stack = 1)
+     public void AddEffect(EffectID id, int stack =1)
     {
-        int index = CheckEffectList(id);
+        int index = CheckEffect(id);
         if(index == -1)
         {
-            _effectList.Add(new EffectBase(id));
+            _effectList.Add(new DataCon<EffectID>(id, stack));
+            Database.EffectDataDict[id].AddEvent(this as CreatureController);
 
-        }
-        else
-        {
-            _effectList[index].PlusStack(stack);
         }
     }
 
-    protected int CheckEffectList(EffectID id)
+    private int CheckEffect(EffectID id)
     {
-        int n = _effectList.Count;
-        for (int i = 0; i < n; i++)
+        int num = _effectList.Count;
+        for(int i = 0; i < num; i++)
         {
             if(_effectList[i].Id == id)
             {
@@ -57,7 +51,19 @@ public class CreatureController : MonoBehaviour
         }
         return -1;
     }
-    */
+
+    public int GetStack(EffectID id) // stack 수치에 따라 효과가 변하는 경우 EFfectBase에서 호출함.
+    {
+        int num = _effectList.Count;
+        for(int i = 0; i < num; i++)
+        {
+            if (_effectList[i].Id == id)
+            {
+                return _effectList[i].Data;
+            }
+        }
+        return -1;
+    }
 
     //데이터 계산 순서 : 주는 DataInt 먼저 적용 -> 받는 Dataint 최종 계산
     public int Calc받는Data(DataID id, int damage)
@@ -80,44 +86,12 @@ public class CreatureController : MonoBehaviour
         //Check방어도()
     }
 
+    public abstract void AddEvent(TriggerID id, TriggerEvent action);
+    public abstract void RemoveEvent(TriggerID id, TriggerEvent action);
+
     
 
 }
 
 
-public class PlayerController : CreatureController
-{
-    
 
-    protected override void Init()
-    {
-        Index = -1;
-    }
-}
-
-public class EnemyController : CreatureController
-{
-
-    protected override void Init()
-    {
-        Index = AddEvent();
-    }
-
-
-    private int AddEvent()
-    {
-        int index;
-        index = 전투EventManager.AddEnemyTrigger();
-        return index;
-    }
-
-    private void OnDestroy()
-    {
-        RemoveEvent();
-    }
-    private void RemoveEvent()
-    {
-        전투EventManager.RemoveEnemyTrigger(Index);
-    }
-    
-}
